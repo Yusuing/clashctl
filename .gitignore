@@ -3,7 +3,9 @@
 
 test.sh
 
-# 安装期物化与用户数据（home 内不跟踪）
+# clashctl user data (subscriptions, secrets, and generated configuration).
+# This includes data/config.yaml, data/mixin.yaml, data/runtime.yaml,
+# data/profiles.yaml, data/profiles/, logs, locks, and PID files.
 data/
 .clashctl-install
 .clashctl-uninitialized

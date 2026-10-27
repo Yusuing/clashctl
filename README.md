@@ -121,6 +121,42 @@ Global Options:
 
 使用示例与进阶配置，详见 [Wiki](https://github.com/nelvko/clashctl/wiki)。
 
+### 节点、面板跨域与端口
+
+查看当前策略组和所选节点，再查看 `Proxy` 组内可用节点：
+
+```bash
+clashctl node ls
+clashctl node ls Proxy
+```
+
+切换到指定节点：
+
+```bash
+clashctl node use Proxy "节点名称"
+```
+
+也可以运行 `clashctl node use` 按交互菜单选择。Mixin 默认启用 `profile.store-selected`，让手动选择在内核重启后保留。
+
+使用 `clashctl mixin -e` 编辑安装目录下的 `data/mixin.yaml`；`resources/mixin.yaml.example` 只是在初始化时使用的模板，不会随着编辑自动同步。其中 `mixed-port` 是应用连接代理时使用的端口；`external-controller` 的端口供 Web 面板和控制 API 使用。保存退出后，clashctl 会校验配置并重启内核。例如：
+
+```yaml
+mixed-port: 7891
+external-controller: "0.0.0.0:9091"
+```
+
+请使用尚未被其他程序占用的端口；启动时遇到端口冲突，clashctl 可能会重新分配端口。
+
+外部网页面板需要把页面的 Origin 加到 `external-controller-cors.allow-origins`（包含协议、域名和非默认端口，不包含路径）。动态 VS Code 转发可以暂时使用 `"*"`，但范围较宽；稳定的面板地址应改用准确的 Origin，并保留 clashctl 自动生成的 Web 密钥。修改后通过 `clashctl mixin -e` 保存并重启生效。`clashctl ui` 会显示当前控制器端口对应的面板地址；该命令显示的公网 IP 是运行 clashctl 的服务器地址，不会随节点切换变化。
+
+要查看当前节点通过代理访问的出口 IP，可在服务器上运行：
+
+```bash
+curl -x http://127.0.0.1:7890 https://ipinfo.io/ip
+```
+
+如果修改了 `mixed-port`，请把示例中的 `7890` 换成当前端口。
+
 ## 🔄 更新
 
 ```bash
@@ -147,6 +183,7 @@ bash "$CLASHCTL_HOME/uninstall.sh"
 
 - [Wiki](https://github.com/nelvko/clashctl/wiki)
 - [常见问题](https://github.com/nelvko/clashctl/wiki/FAQ)
+- [Troubleshooting](TROUBLESHOOTING.md)
 
 ## ⭐ Star History
 

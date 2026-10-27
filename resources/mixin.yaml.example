@@ -5,6 +5,18 @@ external-ui: dist
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 secret:
 
+# Add the exact page Origins that should access the controller. For changing VS Code
+# forwarding URLs, "*" is possible but broad; keep the generated Web secret.
+external-controller-cors:
+  allow-origins:
+    - http://board.zash.run.place
+    - https://vscode.dev
+  allow-private-network: true
+
+# 记住手动选择的策略组节点，避免内核重启后回到订阅中的默认节点。
+profile:
+  store-selected: true
+
 allow-lan: false # 若开启务必设置身份验证以防暴露公网后被滥用
 authentication:
   # - "username:password"

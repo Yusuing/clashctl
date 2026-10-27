@@ -86,6 +86,9 @@ clashon >"$WORK_DIR/result" 2>&1 || { cat "$WORK_DIR/result" >&2; fail 'fresh di
 [ ! -e "$CLASH_CONFIG_BASE" ] || fail 'direct startup wrote a fake base configuration'
 cmp -s -- "$WORK_DIR/metadata.before" "$CLASH_PROFILES_META" || fail 'direct startup selected a fake subscription'
 assert_runtime '.mode == "direct" and .mixed-port == 7890 and .tun.enable == false' 'default direct runtime is incomplete'
+assert_runtime '.profile.store-selected == true and
+    (.external-controller-cors.allow-origins | length > 0) and
+    .external-controller-cors.allow-private-network == true' 'default panel and selection settings are incomplete'
 assert_runtime '(.proxies | length) == 0 and (.proxy-groups | length) == 0' 'default direct runtime contains fake nodes'
 
 : >"$CLASH_CONFIG_BASE"

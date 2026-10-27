@@ -35,9 +35,15 @@ mixin_help() {
 
 - 查看 Mixin 配置：$CLASH_CONFIG_MIXIN
   clashctl mixin
+  resources/mixin.yaml.example 只是在初始化时使用的模板。
 
 - 编辑 Mixin 配置
   clashctl mixin -e
+
+  代理端口使用 mixed-port；Web 面板和 API 端口使用 external-controller。
+  外部网页面板的跨域来源配置在 external-controller-cors.allow-origins；
+  请添加准确的页面 Origin；动态 VS Code 转发也可暂时使用 "*"，但范围较宽。
+  保留 clashctl 自动生成的 Web 密钥。
 
 - 查看原始订阅配置：$CLASH_CONFIG_BASE
   clashctl mixin -c
